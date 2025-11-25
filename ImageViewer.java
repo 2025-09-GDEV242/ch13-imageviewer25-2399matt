@@ -20,6 +20,7 @@ import java.util.Iterator;
  * @version 3.1
  */
 public class ImageViewer
+
 {
     // static fields:
     private static final String VERSION = "Version 3.1";
@@ -33,9 +34,9 @@ public class ImageViewer
     private JButton smallerButton;
     private JButton largerButton;
     private OFImage currentImage;
-    
+
     private List<Filter> filters;
-    
+
     /**
      * Create an ImageViewer and display its GUI on screen.
      */
@@ -48,7 +49,7 @@ public class ImageViewer
 
 
     // ---- implementation of menu functions ----
-    
+
     /**
      * Open function: open a file chooser to select a new image file,
      * and then display the chosen image.
@@ -62,7 +63,7 @@ public class ImageViewer
         }
         File selectedFile = fileChooser.getSelectedFile();
         currentImage = ImageFileManager.loadImage(selectedFile);
-        
+
         if(currentImage == null) {   // image file was not a valid image
             JOptionPane.showMessageDialog(frame,
                     "The file was not in a recognized image file format.",
@@ -96,13 +97,13 @@ public class ImageViewer
     {
         if(currentImage != null) {
             int returnVal = fileChooser.showSaveDialog(frame);
-    
+
             if(returnVal != JFileChooser.APPROVE_OPTION) {
                 return;  // cancelled
             }
             File selectedFile = fileChooser.getSelectedFile();
             ImageFileManager.saveImage(currentImage, selectedFile);
-            
+
             showFilename(selectedFile.getPath());
         }
     }
@@ -117,7 +118,7 @@ public class ImageViewer
 
     /**
      * Apply a given filter to the current image.
-     * 
+     *
      * @param filter   The filter object to be applied.
      */
     private void applyFilter(Filter filter)
@@ -137,9 +138,9 @@ public class ImageViewer
      */
     private void showAbout()
     {
-        JOptionPane.showMessageDialog(frame, 
+        JOptionPane.showMessageDialog(frame,
                     "ImageViewer\n" + VERSION,
-                    "About ImageViewer", 
+                    "About ImageViewer",
                     JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -164,13 +165,13 @@ public class ImageViewer
                     newImage.setPixel(x * 2+1, y * 2 + 1, col);
                 }
             }
-            
+
             currentImage = newImage;
             imagePanel.setImage(currentImage);
             frame.pack();
         }
     }
-    
+
 
     /**
      * Make the current picture smaller.
@@ -189,19 +190,19 @@ public class ImageViewer
                     newImage.setPixel(x, y, currentImage.getPixel(x * 2, y * 2));
                 }
             }
-            
+
             currentImage = newImage;
             imagePanel.setImage(currentImage);
             frame.pack();
         }
     }
-    
+
     // ---- support methods ----
 
     /**
      * Show the file name of the current image in the fils display label.
      * 'null' may be used as a parameter if no file is currently loaded.
-     * 
+     *
      * @param filename  The file name to be displayed, or null for 'no file'.
      */
     private void showFilename(String filename)
@@ -213,8 +214,8 @@ public class ImageViewer
             filenameLabel.setText("File: " + filename);
         }
     }
-    
-    
+
+
     /**
      * Show a message in the status bar at the bottom of the screen.
      * @param text The status message.
@@ -223,11 +224,11 @@ public class ImageViewer
     {
         statusLabel.setText(text);
     }
-    
-    
+
+
     /**
      * Enable or disable all toolbar buttons.
-     * 
+     *
      * @param status  'true' to enable the buttons, 'false' to disable.
      */
     private void setButtonsEnabled(boolean status)
@@ -235,8 +236,8 @@ public class ImageViewer
         smallerButton.setEnabled(status);
         largerButton.setEnabled(status);
     }
-    
-    
+
+
     /**
      * Create a list with all the known filters.
      * @return The list of filters.
@@ -259,14 +260,14 @@ public class ImageViewer
         filterList.add(new GreenChannelFilter("Green Channel"));
         filterList.add(new BlueChannelFilter("Blue Channel"));
         filterList.add(new RedTintFilter("Red Tint"));
-        //filterList.add(new BlueTintFilter("Blue Tint"));
+        filterList.add(new BlueTintFilter("Blue Tint"));
         filterList.add(new GreenTintFilter("Green Tint"));
-       
+
         return filterList;
     }
-    
+
     // ---- Swing stuff to build the frame and all its components and menus ----
-    
+
     /**
      * Create the Swing frame and its content.
      */
@@ -277,10 +278,10 @@ public class ImageViewer
         contentPane.setBorder(new EmptyBorder(12, 12, 12, 12));
 
         makeMenuBar(frame);
-        
+
         // Specify the layout manager with nice spacing
         contentPane.setLayout(new BorderLayout(6, 6));
-        
+
         // Create the image pane in the center
         imagePanel = new ImagePanel();
         imagePanel.setBorder(new EtchedBorder());
@@ -292,15 +293,15 @@ public class ImageViewer
 
         statusLabel = new JLabel(VERSION);
         contentPane.add(statusLabel, BorderLayout.SOUTH);
-        
+
         // Create the toolbar with the buttons
         JPanel toolbar = new JPanel();
         toolbar.setLayout(new GridLayout(0, 1));
-        
+
         smallerButton = new JButton("Smaller");
         smallerButton.addActionListener(e -> makeSmaller());
         toolbar.add(smallerButton);
-        
+
         largerButton = new JButton("Larger");
         largerButton.addActionListener(e -> makeLarger());
         toolbar.add(largerButton);
@@ -308,23 +309,23 @@ public class ImageViewer
         // Add toolbar into panel with flow layout for spacing
         JPanel flow = new JPanel();
         flow.add(toolbar);
-        
+
         contentPane.add(flow, BorderLayout.WEST);
-        
-        // building is done - arrange the components      
+
+        // building is done - arrange the components
         showFilename(null);
         setButtonsEnabled(false);
         frame.pack();
-        
+
         // place the frame at the center of the screen and show
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(d.width/2 - frame.getWidth()/2, d.height/2 - frame.getHeight()/2);
         frame.setVisible(true);
     }
-    
+
     /**
      * Create the main frame's menu bar.
-     * 
+     *
      * @param frame   The frame that the menu bar should be added to.
      */
     private void makeMenuBar(JFrame frame)
@@ -334,14 +335,14 @@ public class ImageViewer
 
         JMenuBar menubar = new JMenuBar();
         frame.setJMenuBar(menubar);
-        
+
         JMenu menu;
         JMenuItem item;
-        
+
         // create the File menu
         menu = new JMenu("File");
         menubar.add(menu);
-        
+
         item = new JMenuItem("Open...");
             item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, SHORTCUT_MASK));
             item.addActionListener(e -> openFile());
@@ -358,7 +359,7 @@ public class ImageViewer
             item.addActionListener(e -> saveAs());
         menu.add(item);
         menu.addSeparator();
-        
+
         item = new JMenuItem("Quit");
             item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, SHORTCUT_MASK));
             item.addActionListener(e -> quit());
@@ -368,7 +369,7 @@ public class ImageViewer
         // create the Filter menu
         menu = new JMenu("Filter");
         menubar.add(menu);
-        
+
         for(Filter filter : filters) {
             item = new JMenuItem(filter.getName());
             item.addActionListener(e -> applyFilter(filter));
@@ -378,7 +379,7 @@ public class ImageViewer
         // create the Help menu
         menu = new JMenu("Help");
         menubar.add(menu);
-        
+
         item = new JMenuItem("About ImageViewer...");
             item.addActionListener(e -> showAbout());
         menu.add(item);

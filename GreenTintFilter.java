@@ -19,14 +19,10 @@ public class GreenTintFilter extends Filter
         for(int x = 0; x < width; x++) {
             for(int y = 0; y < height; y++) {
                 Color currColor = image.getPixel(x,y);
-                int red = currColor.getRed();
+                int red = (int)(currColor.getRed() * 0.5f);
                 int green = currColor.getGreen();
-                int blue = currColor.getBlue();
-                // Same thing here, brute forcing for now for vals.
-                image.setPixel(x,y, new Color(Math.min(red, 128),
-                Math.max(green, 200),
-                Math.min(blue, 128)));
-                
+                int blue = (int)(currColor.getBlue() * 0.5f);
+                image.setPixel(x,y, new Color(red, green, blue));
             }
         }
     }
