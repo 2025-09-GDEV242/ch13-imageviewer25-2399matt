@@ -21,7 +21,7 @@ public class WarholFilter extends Filter
         OFImage red   = new OFImage(image);
         OFImage green = new OFImage(image);
         OFImage blue  = new OFImage(image);
-
+        // horrid, create helper method with switch for tints if there is time. 
         new RedTintFilter("").apply(red);
         new GreenTintFilter("").apply(green);
         new BlueTintFilter("").apply(blue);
