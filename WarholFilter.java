@@ -26,6 +26,7 @@ public class WarholFilter extends Filter
         new GreenTintFilter("").apply(green);
         new BlueTintFilter("").apply(blue);
         //brute forcing can be fun.
+        //reading/writing same image, why is this even working?
         copy(image, image, 0, 0, halfWidth, halfHeight);
         copy(red, image, halfWidth, 0, halfWidth, halfHeight);
         copy(green, image, 0, halfHeight, halfWidth, halfHeight);

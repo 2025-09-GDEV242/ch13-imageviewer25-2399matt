@@ -23,15 +23,15 @@ public class FlippedWarholFilter extends Filter
         new RedTintFilter("").apply(red);
         new GreenTintFilter("").apply(green);
         new BlueTintFilter("").apply(blue);
-        copy(image, image, 0, 0, halfWidth, halfHeight, 1);
-        copy(red, image, halfWidth, 0, halfWidth, halfHeight, 2);
-        copy(green, image, 0, halfHeight, halfWidth, halfHeight, 3);
-        copy(blue, image, halfWidth, halfHeight, halfWidth, halfHeight, 4);
+        copy(image, image, 0, 0, halfWidth, halfHeight, Quadrant.ONE);
+        copy(red, image, halfWidth, 0, halfWidth, halfHeight, Quadrant.TWO);
+        copy(green, image, 0, halfHeight, halfWidth, halfHeight, Quadrant.THREE);
+        copy(blue, image, halfWidth, halfHeight, halfWidth, halfHeight, Quadrant.FOUR);
     }
     
-    private void copy(OFImage original, OFImage newImage, int xOffset, int yOffset, int targetWidth, int targetHeight, int quad) {
+    private void copy(OFImage original, OFImage newImage, int xOffset, int yOffset, int targetWidth, int targetHeight, Quadrant quad) {
         switch(quad) {
-            case 1 -> {
+            case ONE -> {
                 for(int x = 0; x < targetWidth; x++) {
                     for(int y = 0; y < targetHeight; y++) {
                         int srcX = x * original.getWidth() / targetWidth;
@@ -40,7 +40,7 @@ public class FlippedWarholFilter extends Filter
                     }
                 }
             }
-            case 2 -> {
+            case TWO -> {
                 for(int x = 0; x < targetWidth; x++) {
                     for(int y = 0; y < targetHeight; y++) {
                         int srcX = x * original.getWidth() / targetWidth;
@@ -50,7 +50,7 @@ public class FlippedWarholFilter extends Filter
                     }
                 }
             }
-            case 3 -> {
+            case THREE -> {
                 for(int x = 0; x < targetWidth; x++) {
                     for(int y = 0; y < targetHeight; y++) {
                         int srcX = x * original.getWidth() / targetWidth;
@@ -60,7 +60,7 @@ public class FlippedWarholFilter extends Filter
                     }
                 }
             }
-            case 4 -> {
+            case FOUR -> {
                 for(int x = 0; x < targetWidth; x++) {
                     for(int y = 0; y < targetHeight; y++) {
                         int srcX = x * original.getWidth() / targetWidth;
